@@ -33,7 +33,11 @@ extension Resource where Model: Decodable {
     ///   - decoder: a decoder which can decode the payload into the model type
     ///   - mapError: a closure which maps to Error
     public init(request: URLRequest, decoder: JSONDecoder, mapError: @escaping @Sendable  (_ networkError: NetworkError) -> E) {
-        self.init(request: request, parse: { try decoder.decode(Model.self, from: $0) }, mapError: mapError)
+        self.init(request: request, parse: {
+                try decoder.decode(Model.self, from: $1)
+            },
+            mapError: mapError
+        )
     }
 }
 
@@ -47,6 +51,12 @@ extension Resource where Model: Decodable, E: NetworkErrorConvertible {
     ///   - decoder: a decoder which can decode the payload into the model type
     ///   - mapError: a closure which maps to Error
     public init(request: URLRequest, decoder: JSONDecoder) {
-        self.init(request: request, parse: { try decoder.decode(Model.self, from: $0) }, mapError: { E(networkError: $0) })
+        self.init(request: request, parse: {
+                try decoder.decode(Model.self, from: $1)
+            },
+            mapError: {
+                E(networkError: $0)
+            }
+        )
     }
 }

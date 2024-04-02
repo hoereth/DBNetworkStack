@@ -84,9 +84,9 @@ public final class BasicNetworkService: NetworkService {
             }
 
             do {
-                return .success((try resource.parse(data), response))
+                return .success((try resource.parse(response, data), response))
             } catch let error {
-                return .failure(.serializationError(error: error, data: data))
+                return .failure(.serializationError(error: error, response: response, data: data))
             }
         } catch let error {
             if case URLError.cancelled = error {

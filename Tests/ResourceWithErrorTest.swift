@@ -33,13 +33,13 @@ class ResourceWithErrorTest: XCTestCase {
 
         let resource = Resource<String?, NetworkError>(
             request: URLRequest.defaultMock,
-            parse: { String(data: $0, encoding: .utf8) },
+            parse: { String(data: $1, encoding: .utf8) },
             mapError: { $0 }
         )
         
         //When
-        let name = try resource.parse(validData)
-        
+        let name = try resource.parse(HTTPURLResponse.defaultMock, validData)
+
         //Then
         XCTAssertEqual(name, "ICE")
     }
@@ -50,12 +50,12 @@ class ResourceWithErrorTest: XCTestCase {
 
         let resource = Resource<String?, NetworkError>(
             request: URLRequest.defaultMock,
-            parse: { String(data: $0, encoding: .utf8) },
+            parse: { String(data: $1, encoding: .utf8) },
             mapError: { $0 }
         )
 
         //When
-        let numberOfCharacters = try resource.map(transform: { $0?.count }).parse(validData)
+        let numberOfCharacters = try resource.map(transform: { $0?.count }).parse(HTTPURLResponse.defaultMock, validData)
 
         //Then
         XCTAssertEqual(numberOfCharacters, 3)
@@ -86,7 +86,7 @@ class ResourceWithErrorTest: XCTestCase {
         )
 
         //When
-        try resource.parse(Data())
+        try resource.parse(HTTPURLResponse.defaultMock, Data())
     }
 
 }

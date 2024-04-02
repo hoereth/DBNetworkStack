@@ -59,7 +59,7 @@ class NetworkServiceTest: XCTestCase {
         let result = await networkService.requestResult(for: resource)
 
         //Then
-        if case .failure(.serializationError(_, let data)) = result {
+        if case .failure(.serializationError(_, _, let data)) = result {
             XCTAssertEqual(data, Train.JSONDataWithInvalidKey)
         } else {
             XCTFail("Expects serializationError")

@@ -182,7 +182,7 @@ public final class NetworkServiceMock: NetworkService, @unchecked Sendable  {
             switch scheduled {
             case .success((let data, let httpURLResponse)):
                 do {
-                    let result = try resource.parse(data)
+                    let result = try resource.parse(httpURLResponse, data)
                     return .success((result, httpURLResponse))
                 } catch {
                     fatalError("Not able to parse data. Error: \(error)")

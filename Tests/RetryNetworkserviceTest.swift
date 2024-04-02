@@ -27,12 +27,11 @@ import XCTest
 class RetryNetworkserviceTest: XCTestCase {
     var resource: Resource<Int, NetworkError> {
         let request = URLRequest(path: "/train", baseURL: .defaultMock)
-        return Resource(request: request, parse: { _ in return 1})
+        return Resource(request: request, parse: { _, _ in return 1})
     }
     
     func testRetryRequest_shouldRetry() async throws {
         //Given
-        let errorCount = 2
         let numberOfRetries = 2
         let networkServiceMock = NetworkServiceMock(
             Result<Int, NetworkError>.failure(.unknownError),
