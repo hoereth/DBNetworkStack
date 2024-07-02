@@ -121,7 +121,7 @@ extension NetworkService {
     @discardableResult
     public func request<Success, E: Error>(
         _ resource: Resource<Success, E>
-    ) async throws -> Success {
+    ) async throws(E) -> Success {
         let resourceWithoutError = Resource<Success, NetworkError>(request: resource.request, parse: resource.parse)
         return try await requestResultWithResponse(for: resourceWithoutError)
             .mapError(resource.mapError)
@@ -130,7 +130,7 @@ extension NetworkService {
     }
 
     @discardableResult
-    func requestWithResponse<Success, E: Error>(for resource: Resource<Success, E>) async throws -> (Success, HTTPURLResponse) {
+    func requestWithResponse<Success, E: Error>(for resource: Resource<Success, E>) async throws(E) -> (Success, HTTPURLResponse) {
         return try await requestResultWithResponse(for: resource).get()
     }
 

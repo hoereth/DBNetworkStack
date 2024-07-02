@@ -42,19 +42,12 @@ public protocol NetworkService: Sendable {
      let networkService: NetworkService = //
      let resource: Resource<String> = //
      
-     networkService.request(queue: .main, resource: resource, onCompletionWithResponse: { htmlText, response in
-        print(htmlText, response)
-     }, onError: { error in
-        // Handle errors
-     })
+     let result = await networkService.requestResultWithResponse(for: resource)
      ```
      
-     - parameter queue: The `DispatchQueue` to execute the completion and error block on.
      - parameter resource: The resource you want to fetch.
-     - parameter onCompletionWithResponse: Callback which gets called when fetching and transforming into model succeeds.
-     - parameter onError: Callback which gets called when fetching or transforming fails.
-     
-     - returns: a running network task
+
+     - returns: a result containing either the success or a network error
      */
     @discardableResult
     func requestResultWithResponse<Success>(for resource: Resource<Success, NetworkError>) async -> Result<(Success, HTTPURLResponse), NetworkError>
@@ -72,19 +65,13 @@ public extension NetworkService {
      ```swift
      let networkService: NetworkService = //
      let resource: Resource<String> = //
-     
-     networkService.request(resource, onCompletionWithResponse: { htmlText, httpResponse in
-        print(htmlText, httpResponse)
-     }, onError: { error in
-        // Handle errors
-     })
+
+     let result = await networkService.requestResult(for: resource)
      ```
-     
+
      - parameter resource: The resource you want to fetch.
-     - parameter onCompletion: Callback which gets called when fetching and transforming into model succeeds.
-     - parameter onError: Callback which gets called when fetching or transforming fails.
-     
-     - returns: a running network task
+
+     - returns: a result containing either the success or a network error
      */
     @discardableResult
     func requestResult<Success>(for resource: Resource<Success, NetworkError>) async -> Result<Success, NetworkError> {
@@ -102,26 +89,20 @@ public extension NetworkService {
      let networkService: NetworkService = //
      let resource: Resource<String> = //
 
-     networkService.request(resource, onCompletionWithResponse: { htmlText, httpResponse in
-        print(htmlText, httpResponse)
-     }, onError: { error in
-        // Handle errors
-     })
+     let result = await networkService.request(resource)
      ```
 
      - parameter resource: The resource you want to fetch.
-     - parameter onCompletion: Callback which gets called when fetching and transforming into model succeeds.
-     - parameter onError: Callback which gets called when fetching or transforming fails.
 
-     - returns: a running network task
+     - returns: a result containing either the success or a network error
      */
     @discardableResult
-    func request<Success>(_ resource: Resource<Success, NetworkError>) async throws -> Success {
+    func request<Success>(_ resource: Resource<Success, NetworkError>) async throws(NetworkError) -> Success {
         return try await requestResultWithResponse(for: resource).get().0
     }
 
     @discardableResult
-    func requestWithResponse<Success>(for resource: Resource<Success, NetworkError>) async throws -> (Success, HTTPURLResponse) {
+    func requestWithResponse<Success>(for resource: Resource<Success, NetworkError>) async throws(NetworkError) -> (Success, HTTPURLResponse) {
         return try await requestResultWithResponse(for: resource).get()
     }
 }
