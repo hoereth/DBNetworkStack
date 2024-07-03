@@ -30,16 +30,16 @@ final class ResourceInspectTest: XCTestCase {
         let capturedParsingData = Container<Data?>(nil)
         let capturedInspectedData = Container<Data?>(nil)
 
-        let resource = Resource<Int, NetworkError>(request: URLRequest.defaultMock, parse: { response, data in
+        let resource = Resource<Int, NetworkError>(request: URLRequest.defaultMock, parse: { data in
             capturedParsingData.setValue(data)
             return 1
         })
         
         //When
-        let inspectedResource = resource.inspectData({ response, data in
+        let inspectedResource = resource.inspectData({ data in
             capturedInspectedData.setValue(data)
         })
-        let result = try? inspectedResource.parse(HTTPURLResponse.defaultMock, data)
+        let result = try? inspectedResource.parse(data)
 
         //Then
         XCTAssertNotNil(result)
