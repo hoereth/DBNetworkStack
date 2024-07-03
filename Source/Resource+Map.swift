@@ -30,8 +30,8 @@ extension Resource {
     public func map<T>(transform: @escaping @Sendable  (Model) throws -> T) -> Resource<T, E> {
         return Resource<T, E>(
             request: request,
-            parse: { response, data in
-                return try transform(try self.parse(response, data))
+            parse: { data in
+                return try transform(try self.parse(data))
             },
             mapError: mapError
         )

@@ -84,7 +84,7 @@ public final class BasicNetworkService: NetworkService {
             }
 
             do {
-                return .success((try resource.parse(response, data), response))
+                return .success((try resource.parse(data), response))
             } catch let error {
                 return .failure(.serializationError(error: error, response: response, data: data))
             }

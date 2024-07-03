@@ -15,7 +15,7 @@ public extension Resource where Model == Void {
     ///   - request: The request to get the remote data payload
     ///   - mapError: a closure which maps to Error
     init(request: URLRequest, mapError: @escaping @Sendable  (_ networkError: NetworkError) -> E) {
-        self.init(request: request, parse: { _, _ in }, mapError: mapError)
+        self.init(request: request, parse: { _ in }, mapError: mapError)
     }
 }
 
@@ -26,7 +26,7 @@ public extension Resource where Model == Void, E: NetworkErrorConvertible {
     /// - Parameters:
     ///   - request: The request to get the remote data payload
     init(request: URLRequest) {
-        self.init(request: request, parse: { _, _ in }, mapError: { E(networkError: $0) })
+        self.init(request: request, parse: { _ in }, mapError: { E(networkError: $0) })
     }
 
 }

@@ -40,7 +40,7 @@ public struct Resource<Model, E: Error>: Sendable {
     public let request: URLRequest
 
     /// Parses data into given model.
-    public let parse: @Sendable (_ response: HTTPURLResponse, _ data: Data) throws -> Model
+    public let parse: @Sendable (_ data: Data) throws -> Model
     public let mapError: @Sendable (_ networkError: NetworkError) -> E
 
     /// Creates a type safe resource, which can be used to fetch it with NetworkService
@@ -49,7 +49,7 @@ public struct Resource<Model, E: Error>: Sendable {
     /// - request: The request to get the remote data payload
     /// - parse: Parses data fetched with the request into given Model
 
-    public init(request: URLRequest, parse: @escaping @Sendable (HTTPURLResponse, Data) throws -> Model, mapError: @escaping @Sendable  (_ networkError: NetworkError) -> E) {
+    public init(request: URLRequest, parse: @escaping @Sendable  (Data) throws -> Model, mapError: @escaping @Sendable  (_ networkError: NetworkError) -> E) {
         self.request = request
         self.parse = parse
         self.mapError = mapError
