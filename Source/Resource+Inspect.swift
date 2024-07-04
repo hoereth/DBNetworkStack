@@ -36,7 +36,7 @@ extension Resource {
      - parameter inspector: closure which gets passed the data
      - returns: a new resource which gets instepcted before parsing
      */
-    public func inspectData(_ inspector: @escaping @Sendable  (Data) -> Void) -> Resource<Model, E> {
+    public func inspectData(_ inspector: @escaping @Sendable (Data) -> Void) -> Resource<Model, E> {
         let parse: @Sendable (Data) throws -> Model = { data in
             inspector(data)
             return try self.parse(data)

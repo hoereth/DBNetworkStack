@@ -41,7 +41,7 @@ class NetworkServiceMockTest: XCTestCase {
         try await networkServiceMock.request(resource)
 
         //Then
-        let requestCount = await  networkServiceMock.requestCount
+        let requestCount = networkServiceMock.requestCount
         XCTAssertEqual(requestCount, 2)
     }
     
@@ -57,7 +57,7 @@ class NetworkServiceMockTest: XCTestCase {
         try await networkServiceMock.request(resource)
 
         //Then
-        let lastRequests = await networkServiceMock.lastRequests
+        let lastRequests = networkServiceMock.lastRequests
         XCTAssertEqual(lastRequests, [resource.request, resource.request])
     }
     

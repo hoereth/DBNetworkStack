@@ -34,7 +34,7 @@ class DecodableResoureTest: XCTestCase {
     func testResource_withValidData() {
         //When
         let fetchedTrain = try? resource.parse(Train.validJSONData)
-        
+
         //Then
         XCTAssertEqual(fetchedTrain?.name, "ICE")
     }
@@ -43,7 +43,7 @@ class DecodableResoureTest: XCTestCase {
         //When
         let nameResource = resource.map { $0.name }
         let fetchedTrainName = try? nameResource.parse(Train.validJSONData)
-        
+
         //Then
         XCTAssertEqual(fetchedTrainName, "ICE")
     }
