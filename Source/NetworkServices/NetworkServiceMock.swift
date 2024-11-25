@@ -185,7 +185,7 @@ public final class NetworkServiceMock: NetworkService, @unchecked Sendable  {
                     let result = try resource.parse(data)
                     return .success((result, httpURLResponse))
                 } catch {
-                    fatalError("Not able to parse data. Error: \(error)")
+                    return .failure(.serializationError(error: error, response: httpURLResponse, data: data))
                 }
             case .failure(let error):
                 return .failure(error)
