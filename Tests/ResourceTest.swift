@@ -35,7 +35,7 @@ class ResourceTest: XCTestCase {
 
         //When
         let name = try resource.parse(validData)
-        
+
         //Then
         XCTAssertEqual(name, "ICE")
     }

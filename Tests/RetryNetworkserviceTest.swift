@@ -32,7 +32,6 @@ class RetryNetworkserviceTest: XCTestCase {
     
     func testRetryRequest_shouldRetry() async throws {
         //Given
-        let errorCount = 2
         let numberOfRetries = 2
         let networkServiceMock = NetworkServiceMock(
             Result<Int, NetworkError>.failure(.unknownError),
